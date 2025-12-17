@@ -268,8 +268,8 @@ const RoutingPage: React.FC = () => {
             <button
               onClick={() => setMapType('street')}
               className={`px-3 py-1 rounded text-sm font-medium transition-all ${mapType === 'street'
-                  ? 'bg-purple-600 text-white shadow-sm'
-                  : 'text-purple-600 hover:bg-purple-200'
+                ? 'bg-purple-600 text-white shadow-sm'
+                : 'text-purple-600 hover:bg-purple-200'
                 }`}
             >
               Street
@@ -277,8 +277,8 @@ const RoutingPage: React.FC = () => {
             <button
               onClick={() => setMapType('satellite')}
               className={`px-3 py-1 rounded text-sm font-medium transition-all ${mapType === 'satellite'
-                  ? 'bg-purple-600 text-white shadow-sm'
-                  : 'text-purple-600 hover:bg-purple-200'
+                ? 'bg-purple-600 text-white shadow-sm'
+                : 'text-purple-600 hover:bg-purple-200'
                 }`}
             >
               Satellite
@@ -286,7 +286,7 @@ const RoutingPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="h-[500px] rounded-xl overflow-hidden border-2 border-purple-100">
+        <div className="h-[300px] md:h-[500px] rounded-xl overflow-hidden border-2 border-purple-100">
           <MapContainer
             center={thailandCenter}
             zoom={12}
@@ -441,31 +441,44 @@ const RoutingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-10">
-        <Link
-          to="/gallery"
-          className="flex items-center space-x-2 text-purple-600 hover:text-purple-700"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span className="font-medium">Back to Gallery</span>
-        </Link>
+      <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-purple-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          {/* Top Row: Back & Title */}
+          <div className="flex items-center justify-between mb-3 lg:mb-0">
+            <Link
+              to="/gallery"
+              className="flex items-center space-x-2 text-purple-600 hover:text-purple-700 transition-colors group"
+            >
+              <div className="w-8 h-8 rounded-full bg-purple-50 group-hover:bg-purple-100 flex items-center justify-center transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </div>
+              <span className="font-medium hidden lg:inline">Back to Gallery</span>
+            </Link>
 
-        <div className="text-center">
-          <h1 className="text-xl font-bold text-purple-800">Your Travel Route</h1>
-          <p className="text-sm text-purple-500">{optimizedRoute.length} destinations</p>
-        </div>
+            <div className="text-center flex-1 lg:flex-none lg:absolute lg:left-1/2 lg:top-1/2 lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2">
+              <h1 className="text-lg lg:text-xl font-bold text-purple-800">Your Route</h1>
+              <p className="text-xs text-purple-500 lg:hidden">{optimizedRoute.length} stops</p>
+            </div>
 
-        <div className="flex items-center space-x-4">
-          <CoinCounter showAnimation={true} />
-          <button
-            onClick={triggerEmergencyPlan}
-            className="flex items-center space-x-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm transition"
-          >
-            <span>🚨</span>
-            <span>Emergency Plan</span>
-          </button>
+            <div className="w-8 lg:hidden"></div> {/* Spacer for alignment */}
+          </div>
+
+          {/* Bottom Row (Mobile) / Right Side (Desktop): Actions */}
+          <div className="flex items-center justify-between lg:justify-end lg:absolute lg:right-4 lg:top-1/2 lg:transform lg:-translate-y-1/2 space-x-3">
+            <div className="hidden lg:block text-right mr-4">
+              <p className="text-xs text-purple-500">{optimizedRoute.length} destinations</p>
+            </div>
+            <CoinCounter showAnimation={true} />
+            <button
+              onClick={triggerEmergencyPlan}
+              className="flex items-center space-x-1.5 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 lg:py-2 rounded-full lg:rounded-lg font-medium text-xs lg:text-sm shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+            >
+              <span className="text-base">🚨</span>
+              <span>Emergency</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -609,8 +622,8 @@ const RoutingPage: React.FC = () => {
                 <div key={place.id} className="p-4 bg-purple-50 rounded-xl border-2 border-purple-100">
                   <div className="flex items-start space-x-4">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${isPlaceVisited(place.id)
-                        ? 'bg-green-500 text-white'
-                        : 'bg-purple-600 text-white'
+                      ? 'bg-green-500 text-white'
+                      : 'bg-purple-600 text-white'
                       }`}>
                       {isPlaceVisited(place.id) ? '✓' : index + 1}
                     </div>
@@ -699,14 +712,14 @@ const RoutingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Map Visualization */}
-          <div className="xl:col-span-2">
+          {/* Map Visualization - Shows first on mobile */}
+          <div className="xl:col-span-2 order-first xl:order-last">
             <MapVisualization />
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-8 flex justify-center space-x-4">
+        <div className="mt-8 flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
           <button
             onClick={() => {
               const url = optimizedRoute.map(place => `${place.lat},${place.long}`).join('/');
@@ -719,7 +732,7 @@ const RoutingPage: React.FC = () => {
 
           <Link
             to="/gallery"
-            className="bg-gray-200 text-gray-700 py-3 px-8 rounded-xl font-semibold hover:bg-gray-300 transition-colors duration-200"
+            className="bg-gray-200 text-center text-gray-700 py-3 px-8 rounded-xl font-semibold hover:bg-gray-300 transition-colors duration-200"
           >
             Modify Selection
           </Link>
